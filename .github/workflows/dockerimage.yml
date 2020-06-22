@@ -14,10 +14,15 @@ jobs:
       - name: Get version
         run: echo ::set-output name=tag::$(echo ${GITHUB_REF:10})
         id: vars
+      - name: test
+        run:
+          - echo ${GITHUB_REF}
+          - echo ${GITHUB_REF:10}
+          - echo ${{steps.vars.output.tag}}
       - name: Docker login
         run: echo ${{ secrets.DOCKERHUB_PASSWORD }} | docker login --username ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin
       - name: Docker build
-        run: docker build --file Dockerfile --tag cda0/k3s:${{steps.vars.output.tag}} --build-arg K3S_VERSION=${GITHUB_REF} .
+        run: docker build --file Dockerfile --tag cda0/k3s:${{steps.vars.output.tag}} --build-arg K3S_VERSION=${GITHUB_REF:10} .
       - name: Docker tag as latest
         run: docker tag cda0/k3s:${{steps.vars.output.tag}} cda0/k3s:latest
       - name: Docker push tag
