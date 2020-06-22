@@ -1,4 +1,4 @@
-ARG K3S_VERSION v1.18.2-k3s1-amd64
+ARG K3S_VERSION=v1.18.2-k3s1-amd64
 FROM rancher/k3s:$K3S_VERSION as base
 
 # https://github.com/rancher/k3s/issues/390
