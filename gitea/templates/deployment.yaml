@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.name }}
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{ .Values.name }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.name }}
+    spec:
+      containers:
+      - name: {{ .Values.name }}
+        image: {{ .Values.image }}
+        env:
+        - name: USER_UID
+          value: '65534'
+        - name: USER_GID
+          value: '65534'
+        ports:
+          - containerPort: {{ .Values.port }}
+          - containerPort: 22
+        volumeMounts:
+        - name: nfs
+          mountPath: /data
+          subPath: gitea
+        - name: config
+          mountPath: /data/gitea/conf/app.ini
+          subPath: app.ini
+      # securityContext:
+        # fsGroup: 65534
+        # runAsUser: 65534
+      volumes:
+      - name: config
+        configMap:
+          name: {{ .Values.name }}-config
+      - name: nfs
+        persistentVolumeClaim:
+          claimName: nfspvc

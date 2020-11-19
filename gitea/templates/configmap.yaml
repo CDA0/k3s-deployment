@@ -1,0 +1,79 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Values.name }}-config
+data:
+  app.ini: |-
+    APP_NAME = gitea
+    RUN_USER = gitea
+    RUN_MODE = prod
+    [repository]
+    ROOT = /data/repositories
+    FORCE_PRIVATE = false
+    DISABLE_HTTP_GIT = false
+    [repository.upload]
+    ENABLED = true
+    ALLOWED_TYPES = 
+    FILE_MAX_SIZE = 3
+    MAX_FILES = 5
+    [server]
+    PROTOCOL = http
+    DOMAIN = gitea.k3s.magiccastle.me.uk
+    ROOT_URL = http://gitea.k3s.magiccastle.me.uk
+    LANDING_PAGE = home
+    SSH_PORT = {{ .Values.sshPort }}
+    LFS_START_SERVER = false
+    LFS_START_SERVER = false
+    LFS_JWT_SECRET = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYmYiOjE1ODM4NjIxMjV9.uI5EdbNm66D4uCeaNrnB7y-7lwr03L9iCSGXdg2tRHg
+    LFS_HTTP_AUTH_EXPIRY = 20m
+    LFS_MAX_FILE_SIZE = 0
+    LFS_LOCKS_PAGING_NUM = 50
+    [service]
+    ENABLE_CAPTCHA = false
+    ACTIVE_CODE_LIVE_MINUTES = 180
+    RESET_PASSWD_CODE_LIVE_MINUTES = 180
+    REGISTER_EMAIL_CONFIRM = false
+    DISABLE_REGISTRATION = false
+    REQUIRE_SIGNIN_VIEW = true
+    ENABLE_NOTIFY_MAIL = false
+    ENABLE_REVERSE_PROXY_AUTHENTICATION = false
+    ENABLE_REVERSE_PROXY_AUTO_REGISTRATION = false
+    [database]
+    DB_TYPE = mysql
+    PATH = /data/gitea.db
+    HOST = mariadb-service
+    NAME = giteadb
+    USER = gitea
+    PASSWD = changeme
+    SSL_MODE =
+    [admin]
+    DISABLE_REGULAR_ORG_CREATION = false
+    [security]
+    INSTALL_LOCK = true
+    SECRET_KEY = 1f3e31d1b941db26127b7c9ed459c5c60e706f17c2387c38d02d8cc62282e90e196b9c8b13748019917224f9696c7c94dd56a0511efedb1cbb5e419d9821eeba
+    INTERNAL_TOKEN = 7654ertyuioiuytre3456789
+    [ui]
+    EXPLORE_PAGING_NUM = 20
+    ISSUE_PAGING_NUM = 10
+    FEED_MAX_COMMIT_NUM = 5
+    [cache]
+    ADAPTER = memory
+    INTERVAL = 60
+    HOST =
+    [webhook]
+    QUEUE_LENGTH = 1000
+    DELIVER_TIMEOUT = 5
+    SKIP_TLS_VERIFY = true
+    PAGING_NUM = 10
+    [log]
+    MODE = console
+    LEVEL = Trace
+    [other]
+    SHOW_FOOTER_BRANDING = true
+    SHOW_FOOTER_VERSION = true
+    [oauth2]
+    ENABLE = true
+    ACCESS_TOKEN_EXPIRATION_TIME=3600
+    REFRESH_TOKEN_EXPIRATION_TIME=730
+    INVALIDATE_REFRESH_TOKENS=false
+    JWT_SECRET=Bk0yK7Y9g_p56v86KaHqjSbxvNvu3SbKoOdOt2ZcXvU

@@ -1,0 +1,63 @@
+piVersion: apps/v1
+kind: Deployment
+metadata:
+  name: heimdall
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: heimdall
+  template:
+    metadata:
+      labels:
+        app: heimdall
+    spec:
+      containers:
+      - name: heimdall
+        image: linuxserver/heimdall
+        env:
+        - name: PUID
+          value: '65534'
+        - name: PGID
+          value: '65534'
+        ports:
+          - containerPort: 80
+        volumeMounts:
+        - name: nfs
+          mountPath: /config
+          subPath: heimdall
+      volumes:
+      - name: nfs
+        persistentVolumeClaim:
+          claimName: nfspvc
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: heimdall-service
+  namespace: default
+spec:
+  ports:
+  - name: http
+    port: 80
+    protocol: TCP
+  selector:
+    app: heimdall
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: heimdall-ingress
+  namespace: default
+  annotations:
+    kubernetes.io/ingress.class: nginx
+spec:
+  rules:
+  - host: heimdall.k3s.magiccastle.me.uk
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: heimdall-service
+          servicePort: http

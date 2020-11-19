@@ -1,0 +1,5 @@
+name: Lounge
+entities:
+  - light.lounge_centre
+  - media_player.lounge
+  - media_player.lounge_tv

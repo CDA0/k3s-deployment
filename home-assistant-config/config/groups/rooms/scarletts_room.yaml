@@ -1,0 +1,4 @@
+name: Scarletts room
+entities:
+  - light.scarletts_bed
+  - light.scarletts_centre

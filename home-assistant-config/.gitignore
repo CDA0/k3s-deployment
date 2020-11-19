@@ -1,0 +1,19 @@
+# Ignore folders.
+.storage
+.cloud
+.google.token
+.uuid
+__pycache__
+deps
+
+.DS_Store
+*.db
+*.log
+*.tmp
+
+# Ensure these YAML files are ignored, otherwise your secret data/credentials will leak.
+ip_bans.yaml
+known_devices.yaml
+
+.shopping_list.json
+secrets.yaml

@@ -1,0 +1,28 @@
+- platform: command_line
+  name: 'Current Git Commit ID'
+  command: 'git -C /config/ rev-parse HEAD'
+  scan_interval: 5
+
+- platform: command_line
+  name: 'Local Git Commit Time'
+  command: 'git -C /config/ log -1 --format="%at" | xargs -I{} date -ud @{} +"%Y-%m-%dT%H:%M:%S.000Z"'
+  scan_interval: 5
+
+- platform: template
+  sensors:
+    git_update_available:
+      friendly_name: "Git Update Available"
+      value_template: >-
+        {% if states('sensor.current_git_commit_id') != state_attr('sensor.gitlab_ci_status', 'commit id')
+        and states('sensor.local_git_commit_time') < state_attr('sensor.gitlab_ci_status', 'commit date')
+        and state_attr('sensor.gitlab_ci_status', 'build_status') == 'success' 
+        and state_attr('sensor.gitlab_ci_status', 'build branch') == 'master' %} 
+        true
+        {% else %} 
+        false
+        {% endif %}
+
+- platform: gitlab_ci
+  gitlab_id: !secret gitlab_id
+  token: !secret gitlab_token
+  scan_interval: 30

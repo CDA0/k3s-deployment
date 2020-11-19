@@ -1,0 +1,39 @@
+---
+kind: pipeline
+type: kubernetes
+name: default
+
+workspace:
+  path: /workspace
+
+steps:
+- name: check config
+  image: homeassistant/home-assistant:0.106.4
+  commands:
+  - mv config/fake_secrets.yaml config/secrets.yaml
+  - /usr/local/bin/python -m homeassistant --config config --script check_config
+
+- name: decrypt secrets
+  image: mozilla/sops
+  commands:
+  - echo "$GPG_USER_KEY" | base64 -d > gpg.key
+  - gpg --batch --yes --pinentry-mode loopback --passphrase $GPG_PASSPHRASE --import gpg.key
+  - touch dummy.txt
+  - gpg --batch --yes --pinentry-mode loopback --passphrase $GPG_PASSPHRASE -s dummy.txt
+  - sops --decrypt sops_secrets.yaml > /workspace/secrets.yaml
+  environment:
+    GPG_USER_KEY:
+      from_secret: GPG_USER_KEY
+    GPG_PASSPHRASE:
+      from_secret: GPG_PASSPHRASE
+
+- name: deploy
+  image: dtzar/helm-kubectl:3.1.2
+  commands:
+  - mkdir -p /root/.kube
+  - echo "$KUBE_CONFIG" | base64 -d > /root/.kube/config
+  - cp /workspace/secrets.yaml config
+  - helm template . | kubectl apply -f -
+  environment:
+    KUBE_CONFIG:
+      from_secret: KUBE_CONFIG

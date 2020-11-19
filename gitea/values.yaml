@@ -1,0 +1,6 @@
+name: gitea
+image: gitea/gitea
+version: 1.11.2
+port: 3000
+sshPort: 2222
+host: gitea.k3s.magiccastle.me.uk

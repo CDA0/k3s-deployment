@@ -1,0 +1,6 @@
+- entity_id: media_player.kitchen
+  name: Kitchen
+- entity_id: media_player.master_bedroom
+  name: Bedroom
+- entity_id: media_player.lounge
+  name: Lounge

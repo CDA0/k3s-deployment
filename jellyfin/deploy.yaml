@@ -1,0 +1,66 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: jellyfin
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: jellyfin
+  template:
+    metadata:
+      labels:
+        app: jellyfin
+    spec:
+      containers:
+      - name: jellyfin
+        image: jellyfin/jellyfin
+        ports:
+          - name: http
+            containerPort: 8096
+            protocol: TCP
+        volumeMounts:
+        - name: nfs
+          mountPath: /config
+          subPath: jellyfin
+        - name: nfsmedia
+          mountPath: /media
+      volumes:
+      - name: nfs
+        persistentVolumeClaim:
+          claimName: nfspvc
+      - name: nfsmedia
+        persistentVolumeClaim:
+          claimName: nfsmedia
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: jellyfin-service
+  namespace: default
+spec:
+  ports:
+  - name: http
+    port: 80
+    protocol: TCP
+    targetPort: 8096
+  selector:
+    app: jellyfin
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: jellyfin-ingress
+  namespace: default
+  annotations:
+    kubernetes.io/ingress.class: nginx
+spec:
+  rules:
+  - host: jellyfin.k3s.magiccastle.me.uk
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: jellyfin-service
+          servicePort: http

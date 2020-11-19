@@ -1,0 +1,7 @@
+name: homeassistant
+image:
+  repository: homeassistant/home-assistant
+  tag: 0.106.3
+  pullPolicy: IfNotPresent
+port: 8123
+host: hass.k3s.magiccastle.me.uk

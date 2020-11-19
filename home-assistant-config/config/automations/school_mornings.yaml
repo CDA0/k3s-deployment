@@ -1,0 +1,37 @@
+- id: lights_on_for_school
+  alias: 'Turn lights on in morning for school'
+  trigger:
+    platform: time
+    at: '07:30:00'
+  condition:
+    condition: time
+    weekday:
+      - mon
+      - tue
+      - wed
+      - thu
+      - fri
+  action:
+    service: light.turn_on
+    entity_id:
+      - group.scarletts_room
+      - group.coles_room
+      - group.master_bedroom
+      - light.console_table
+
+- id: lights_off_after_leaving_for_school
+  alias: 'Turn lights off after leaving for school'
+  trigger:
+    platform: time
+    at: '08:45:00'
+  condition:
+    condition: time
+    weekday:
+      - mon
+      - tue
+      - wed
+      - thu
+      - fri
+  action:
+    service: light.turn_off
+    entity_id: group.all_lights

@@ -1,0 +1,33 @@
+- id: lights_on_for_craig_work
+  alias: 'Turn lights on in morning for Craig going to work'
+  trigger:
+    platform: time
+    at: '05:55:00'
+  condition:
+    condition: time
+    weekday:
+      - mon
+      - tue
+      - wed
+      - thu
+      - fri
+  action:
+    service: light.turn_on
+    entity_id: light.console_table
+
+- id: lights_off_after_craig_leaves
+  alias: 'Turn lights off after Craig leaves for work'
+  trigger:
+    platform: time
+    at: '06:30:00'
+  condition:
+    condition: time
+    weekday:
+      - mon
+      - tue
+      - wed
+      - thu
+      - fri
+  action:
+    service: light.turn_off
+    entity_id: light.console_table

@@ -1,0 +1,6 @@
+---
+- name: Install nginx mandatory
+  command: curl https://raw.githubusercontent.com/kubernetes/ingress-nginx/nginx-0.30.0/deploy/static/mandatory.yaml | kubectl apply -f -
+
+- name: Install nginx generic
+  command: curl https://raw.githubusercontent.com/kubernetes/ingress-nginx/nginx-0.30.0/deploy/static/provider/cloud-generic.yaml | kubectl apply -f -

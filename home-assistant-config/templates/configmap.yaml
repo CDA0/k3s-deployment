@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Values.name }}-config
+data:
+  {{- range $path, $d := .Files.Glob "config/**" }}
+  {{ $path | splitList "/" | join "_" }}: |-
+  {{- $d | toString | nindent 4 }}
+  {{ end }}

@@ -1,0 +1,11 @@
+name: Hall
+entities:
+  - light.console_table
+  - light.hall_ceiling_downstairs
+  - sensor.hall_thermostat_heating
+  - sensor.hall_thermostat_humidity
+  - sensor.hall_thermostat_link
+  - sensor.hall_thermostat_overlay
+  - sensor.hall_thermostat_power
+  - sensor.hall_thermostat_tado_mode
+  - sensor.hall_thermostat_temperature

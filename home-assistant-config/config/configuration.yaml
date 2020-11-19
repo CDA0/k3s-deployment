@@ -1,0 +1,96 @@
+homeassistant:
+  name: !secret name
+  latitude: !secret latitude
+  longitude: !secret longitude
+  elevation: !secret elevation
+  unit_system: metric
+  time_zone: Europe/London
+  customize: !include customize.yaml
+  auth_providers:
+    - type: homeassistant
+    - type: legacy_api_password
+      api_password: !secret api_password
+    - type: trusted_networks
+      trusted_networks:
+        - !secret trusted_ip
+
+
+# recorder:
+  # db_url: !secret db_url
+
+frontend:
+
+# Enables configuration UI
+config:
+
+http:
+  base_url: !secret base_url
+
+lovelace:
+  mode: yaml
+
+updater:
+  include_used_components: true
+
+discovery:
+
+conversation:
+
+history:
+
+logbook:
+
+map:
+
+sun:
+
+shell_command:
+  git_pull: 'git -C /config/ pull'
+
+tts:
+  - platform: google_translate
+
+cloud:
+
+group: !include_dir_named groups/
+automation: !include_dir_merge_list automations/
+script: !include scripts.yaml
+sensor: !include_dir_merge_list sensors/
+
+tado:
+  username: !secret tado_username
+  password: !secret tado_password
+
+hue:
+  bridges:
+    - host: !secret hue_ip_address
+      allow_unreachable: true
+      allow_hue_groups: true
+
+sonos:
+  media_player:
+    hosts:
+      - !secret sonos_playbar
+      - !secret sonos_play_1
+      - !secret sonos_play_3
+
+roku:
+  - host: !secret roku_living_room_ip
+
+cast:
+  media_player:
+    - host: !secret cast_living_room_ip
+    - host: !secret cast_lounge_ip
+
+device_tracker:
+  - platform: tado
+    username: !secret tado_username
+    password: !secret tado_password
+    home_id: !secret tado_home_id
+
+shopping_list:
+
+weather:
+  - platform: openweathermap
+    api_key: !secret openweathermap_api_key
+    mode: daily

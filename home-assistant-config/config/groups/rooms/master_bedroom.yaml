@@ -1,0 +1,11 @@
+name: Master bedroom
+entities:
+- light.master_bedroom_centre
+- media_player.master_bedroom
+- sensor.master_bedroom_heating
+- sensor.master_bedroom_humidity
+- sensor.master_bedroom_link
+- sensor.master_bedroom_overlay
+- sensor.master_bedroom_power
+- sensor.master_bedroom_tado_mode
+- sensor.master_bedroom_temperature

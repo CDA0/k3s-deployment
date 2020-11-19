@@ -1,0 +1,184 @@
+resources:
+  - url: /local/custom-ui/light-entity-row.js?v=0
+    type: module
+  - url: /local/custom-ui/mini-media-player-bundle.js?v=0.9.8
+    type: module
+  - url: /local/custom-ui/roku-card.js?v=0
+    type: module
+  - url: /local/custom-ui/group-card.js?v=0.0.2
+    type: module
+  - url: /local/custom-ui/tracker-card.js?v=0
+    type: js
+
+title: Magic Castle
+views:
+  - icon: mdi:home
+    title: home
+    path: home
+    cards:
+      - type: glance
+        title: People at home
+        entities:
+          - device_tracker.craigs_phone
+          - device_tracker.janines_phone
+      - type: weather-forecast
+        entity: weather.openweathermap
+
+  - icon: mdi:ceiling-light
+    title: Lights
+    path: lights
+    cards:
+      - type: entities
+        title: Master Bedroom
+        entities:
+          - type: "custom:light-entity-row"
+            entity: light.master_bedroom_centre
+            showBrightness: true
+            showTempButtons: false
+            showColorTemp: true
+            showColorPicker: true
+            showColorSliders: false
+      - type: entities
+        title: Scarlett's Room
+        entities:
+          - type: "custom:light-entity-row"
+            entity: light.scarletts_bed
+            showBrightness: true
+            showTempButtons: false
+            showColorTemp: true
+            showColorPicker: true
+            showColorSliders: false
+          - type: "custom:light-entity-row"
+            entity: light.scarletts_centre
+            showBrightness: true
+            showTempButtons: false
+            showColorTemp: true
+            showColorPicker: true
+            showColorSliders: false
+      - type: entities
+        title: Cole's Room
+        entities:
+          - type: "custom:light-entity-row"
+            entity: light.coles_centre
+            showBrightness: true
+            showTempButtons: false
+            showColorTemp: true
+            showColorPicker: true
+            showColorSliders: false
+      - type: entities
+        title: Living Room
+        entities:
+          - type: "custom:light-entity-row"
+            entity: light.living_room_centre
+            showBrightness: true
+            showTempButtons: false
+            showColorTemp: true
+            showColorPicker: true
+            showColorSliders: false
+          - type: "custom:light-entity-row"
+            entity: light.cupboard_lamp
+            showBrightness: true
+            showTempButtons: false
+            showColorTemp: true
+            showColorPicker: true
+            showColorSliders: false
+          - type: "custom:light-entity-row"
+            entity: light.floor_lamp
+            showBrightness: true
+            showTempButtons: false
+            showColorTemp: true
+            showColorPicker: true
+            showColorSliders: false
+      - type: entities
+        title: Lounge
+        entities:
+          - type: "custom:light-entity-row"
+            entity: light.lounge_centre
+            showBrightness: true
+            showTempButtons: false
+            showColorTemp: true
+            showColorPicker: true
+            showColorSliders: false
+      - type: entities
+        title: Hall
+        entities:
+          - type: "custom:light-entity-row"
+            entity: light.hall_ceiling_downstairs
+            showBrightness: true
+            showTempButtons: false
+            showColorTemp: true
+            showColorPicker: true
+            showColorSliders: false
+          - type: "custom:light-entity-row"
+            entity: light.console_table
+            showBrightness: true
+            showTempButtons: false
+            showColorTemp: true
+            showColorPicker: true
+            showColorSliders: false
+
+  - icon: mdi:thermostat
+    title: Heating
+    path: heating
+    cards:
+      - type: entities
+        entities:
+          - climate.hall_thermostat
+      - type: entities
+        entities:
+          - climate.master_bedroom
+
+  - icon: mdi:music
+    title: Music
+    path: music
+    cards:
+      - entity: media_player.kitchen
+        type: custom:mini-media-player
+        hide_power: true
+        show_source: small
+        sonos_grouping: !include sonos.yaml
+      - entity: media_player.lounge
+        type: custom:mini-media-player
+        hide_power: true
+        show_source: small
+        sonos_grouping: !include sonos.yaml
+      - entity: media_player.master_bedroom
+        type: custom:mini-media-player
+        hide_power: true
+        show_source: small
+        sonos_grouping: !include sonos.yaml
+
+  - icon: mdi:filmstrip
+    title: TV
+    path: tv
+    cards:
+      - type: custom:roku-card
+        entity: media_player.living_room_roku
+        name: Living Room ROKU
+        tv: true
+      - entity: media_player.living_room_tv
+        type: custom:mini-media-player
+      - entity: media_player.lounge_tv
+        type: custom:mini-media-player
+
+  - icon: mdi:information-variant
+    title: Information
+    path: information
+    cards:
+      - type: custom:tracker-card
+        title:
+        trackers:
+          - sensor.custom_card_tracker
+          - sensor.custom_component_tracker
+      - type: custom:group-card
+        group: group.pihole
+        card:
+          type: entities
+          title: Pi Hole
+          show_header_toggle: false
+      - type: entities
+        title: System
+        show_header_toggle: false
+        entities:
+          - sensor.disk_use_percent
+          - sensor.memory_free
